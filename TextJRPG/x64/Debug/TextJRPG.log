@@ -1,7 +1,4 @@
 ﻿  GameManager.cpp
-C:\Users\Administrator\Desktop\TextJRPG\TextJRPG\GameManager.cpp(12,2): error C2059: 구문 오류: '}'
-  Player.cpp
-  main.cpp
-C:\Users\Administrator\Desktop\TextJRPG\TextJRPG\main.cpp(16,25): error C2661: 'GameManager::GameManager': 오버로드된 함수에서 2개의 인수를 사용하지 않습니다.
-C:\Users\Administrator\Desktop\TextJRPG\TextJRPG\main.cpp(16,25): message : 인수 목록 '(Player, Player)'을(를) 일치시키는 동안
+  Inventory.cpp
   코드를 생성하고 있습니다...
+  TextJRPG.vcxproj -> C:\Users\Administrator\Desktop\TextJRPG\x64\Debug\TextJRPG.exe

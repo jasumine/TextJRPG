@@ -1,13 +1,17 @@
 #include <iostream>
+#include <string>
+#include "Inventory.h"
+
 using namespace std;
+
 class Player
 {
 	string name;
 
-	int level;
+	int level = 1;
 
-	int exp;
-	int maxExp;
+	int exp = 0;
+	int maxExp = 100;
 
 	int maxHp = 100;
 	int curHp;
@@ -15,14 +19,16 @@ class Player
 	int maxMp = 100;
 	int curMp;
 
-	int atk;
-	int def;
+	int atk = 30;
+	int def = 10;
 
+	Inventory inventory;
+	Item mItem;
 
 public:
 	
 	Player();
-	Player(string _name, int _level, int _hp, int _atk, int _exp);
+	Player(string _name, int _level, Item _item);
 	~Player();
 
 	void SetLevel(int);
@@ -47,4 +53,9 @@ public:
 	int GetDef();
 
 	bool Death();
+
+	void SetItem(Item);
+	Item GetItem();
+	void ReleaseItem();
+	void UseItem();
 };

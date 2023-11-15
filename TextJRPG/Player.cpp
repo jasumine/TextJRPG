@@ -2,25 +2,18 @@
 
 Player::Player()
 {
-	level = 1;
-	exp = 0;
-	maxExp = 10;
 	curHp = maxHp;
 	curMp = maxMp;
-	atk = 10;
-	def = 10;
 }
 
 // 몬스터 생성자
-Player::Player(string _name = "monster",int _level = 1, int _hp = 10, int _atk = 5, int _exp = 10)
+Player::Player(string _name,int _level, Item _item)
 {
 	name = _name;
 	level = _level;
-	exp = _exp;
-	curHp = _hp;
-	curMp = 0;
-	atk = _atk;
-	def = 0;
+	curHp = 50;
+	atk = 30;
+	mItem = _item;
 }
 
 Player::~Player()
@@ -49,6 +42,16 @@ int Player::GetExp()
 	return exp;
 }
 
+void Player::SetName(string _name)
+{
+	name = _name;
+}
+
+string Player::GetName()
+{
+	return name;
+}
+
 void Player::SetHp(int _hp)
 {
 	curHp += _hp;
@@ -56,6 +59,7 @@ void Player::SetHp(int _hp)
 
 int Player::GetHp()
 {
+	if (curHp <= 0) curHp = 0;
 	return curHp;
 }
 
@@ -90,11 +94,40 @@ int Player::GetDef()
 
 bool Player::Death()
 {
-	if (curHp == 0)
+	if (curHp <= 0)
 		return true;
 	else
 		return false;
 }
+
+void Player::SetItem(Item _item)
+{
+	mItem = _item;
+	inventory.AddItem(_item);
+}
+
+Item Player::GetItem()
+{
+	return mItem;
+}
+
+
+void Player::ReleaseItem()
+{
+}
+
+void Player::UseItem()
+{
+	inventory.LoadInventory();
+
+	cout << "사용하고싶은 아이템의 번호를 입력하세요." << endl;
+	string num;
+	cin >> num;
+	mItem = inventory.UseItem(stoi(num));
+
+	curHp += mItem.GetValue();
+}
+
 
 
 
