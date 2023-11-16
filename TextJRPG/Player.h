@@ -11,7 +11,7 @@ class Player
 	int level = 1;
 
 	int exp = 0;
-	int maxExp = 100;
+	int maxExp = 10;
 
 	int maxHp = 100;
 	int curHp;
@@ -23,14 +23,19 @@ class Player
 	int def = 10;
 
 	Inventory inventory;
+	Inventory equipment;
 	Item mItem;
 
 public:
 	
 	Player();
-	Player(string _name, int _level, Item _item);
+	Player(string _name, int _level);
 	~Player();
 
+	void SetMonster(int);
+	void LevelUP();
+
+	void CoutExp();
 	void SetLevel(int);
 	int GetLevel();
 
@@ -40,11 +45,13 @@ public:
 	void SetName(string);
 	string GetName();
 
+	void SetMaxHp(int);
 	void SetHp(int);
-	int GetHp();
+	int GetCurHp();
 
+	void SetMaxMp(int);
 	void SetMp(int);
-	int GetMp();
+	int GetCurMp();
 
 	void SetAtk(int);
 	int GetAtk();
@@ -54,8 +61,15 @@ public:
 
 	bool Death();
 
+	void Recovery();
+
 	void SetItem(Item);
 	Item GetItem();
+	Inventory GetInventory();
 	void ReleaseItem();
 	void UseItem();
+	void SellItem();
+
+	void LoadInventory();
+	void SetEquipment();
 };

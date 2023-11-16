@@ -2,19 +2,12 @@
 
 GameManager::GameManager()
 {
-	shopInventory = Inventory("shop");
+	
 }
 
 GameManager::GameManager(Player _player)
 {
 	player = _player;
-}
-
-GameManager::GameManager(Player _player, Player _monster)
-{
-	player = _player;
-	monster = _monster;
-
 }
 
 GameManager::~GameManager()
@@ -23,8 +16,8 @@ GameManager::~GameManager()
 
 void GameManager::CoutHP()
 {
-	cout<< "플레이어의 HP : " << player.GetHp() << endl
-		<< "몬스터의 HP : " << monster.GetHp() << endl;
+	cout<< "플레이어의 HP : " << player.GetCurHp() << endl
+		<< monster.GetName()<< "의 HP : " << monster.GetCurHp() << endl;
 }
 
 void GameManager::GameStart()
@@ -35,7 +28,8 @@ void GameManager::GameStart()
 	
 	if (input[0] == '1')
 	{
-		cout << "마을은 아직 미구현입니다..." << endl;
+		cout << "마을에 갑니다." << endl;
+		Town();
 	}
 	else if (input[0] == '2')
 	{
@@ -46,7 +40,7 @@ void GameManager::GameStart()
 	{
 		cout << "필드에 갑니다." << endl;
 		isBattle = true;
-		Battle();
+		Map();
 	}
 	else if (input[0] == '4')
 	{
@@ -56,18 +50,165 @@ void GameManager::GameStart()
 	}
 }
 
+// ===============================Town=========================
+
+void GameManager::Town()
+{
+	cout << "마을에서는 Hp, Mp가 회복됩니다." << endl;
+	player.Recovery();
+	
+	cout << "1. 플레이어와 거래하기" << endl
+		<< "2. 인벤토리 확인하기" << endl
+		<<"3. 돌아가기" <<endl;
+	input.clear();
+	cin >> input;
+
+	if (input[0] == '1')
+	{
+		cout << "다른 플레이어와 거래를 합니다." << endl;
+		Trade();
+	}
+	if (input[0] == '2')
+	{
+		cout << "장비창과 인벤토리를 확인합니다." << endl;
+		CheckInventory();
+	}
+	if (input[0] == '3')
+	{
+		cout << "돌아갑니다." << endl;
+	}
+}
+
+void GameManager::Trade()
+{
+}
+
+void GameManager::CheckInventory()
+{
+	player.LoadInventory();
+
+	cout << "1. 장비 교체하기" << endl
+		<< "2. 돌아가기" << endl;
+	input.clear();
+	cin >> input;
+	if (input[0] == '1')
+	{
+		cout << "장비를 교체합니다." << endl;
+		player.SetEquipment();
+	}
+	else if (input[0] == '2')
+	{
+		cout << "돌아갑니다." << endl;
+	}
+
+
+}
+
+
+// ================================Shop=========================
+
 void GameManager::Shop()
 {
-	shopInventory.LoadInventory();
+	cout << "1. 구매 2. 판매" << endl;
+	input.clear();
+	cin >> input;
+	if (input[0] == '1')
+	{
+		cout << "구매를 선택하셨습니다." << endl;
+		BuySelect();
+	}
+	else if (input[0] == '2')
+	{
+		cout << "판매를 선택하셨습니다." << endl;
+		player.SellItem();
+	}
+}
+
+void GameManager::BuySelect()
+{
+	cout << "1. 잡화점 2. 무기점" << endl;
+	input.clear();
+	cin >> input;
+
+	if (input[0] == '1')
+	{
+		cout << "잡화점을 선택하셨습니다." << endl;
+		PotionShop();
+	}
+	else if (input[0] == '2')
+	{
+		cout << "무기점을 선택하셨습니다." << endl;
+		WeaponShop();
+	}
+
+}
+
+void GameManager::PotionShop()
+{
+	if (!setPotionShop)
+	{
+		shopPotionInventory.SetPotionShopInventory();
+		setPotionShop = true;
+	}
+
+	shopPotionInventory.LoadInventory();
 	cout << "구매하고싶은 아이템의 번호를 입력하세요." << endl;
 	string num;
 	cin >> num;
-	player.SetItem(shopInventory.BuyItem(stoi(num)));
-	cout << player.GetItem().GetName() << "을 구매했습니다." << endl;
+	player.SetItem(shopPotionInventory.BuyItem(stoi(num)));
 }
 
-void GameManager::Battle()
+void GameManager::WeaponShop()
 {
+
+	if (!setWeaponShop)
+	{
+		shopWeaponInventory.SetWeaponShopInventory();
+		setWeaponShop = true;
+	}
+
+	shopWeaponInventory.LoadInventory();
+	cout << "구매하고싶은 아이템의 번호를 입력하세요." << endl;
+	string num;
+	cin >> num;
+	player.SetItem(shopWeaponInventory.BuyItem(stoi(num)));
+}
+
+
+// ================================Battle=========================
+
+void GameManager::Map()
+{
+	cout << "맵을 선택해 주세요." << endl
+		<< "1. 숲 속	 2. 무덤	 3. 던전" << endl;
+	input.clear();
+	cin >> input;
+	
+	if (input[0] == '1')
+	{
+		cout << "숲 속으로 갑니다." << endl;
+		Player slime("슬라임", 1);
+		Battle(slime);
+	}
+	else if (input[0] == '2')
+	{
+		cout << "무덤으로 갑니다." << endl;
+		Player skeleton("해골", 5);
+		Battle(skeleton);
+	}
+	else if (input[0] == '3')
+	{
+		cout << "던전으로 갑니다." << endl;
+		Player boss("용가리", 10);
+		Battle(boss);
+	}
+}
+
+
+void GameManager::Battle(Player _monster)
+{
+	monster = _monster;
+	playerTurn = true;
 	while (isBattle)
 	{
 		if (playerTurn)
@@ -81,10 +222,6 @@ void GameManager::Battle()
 	}
 }
 
-bool GameManager::End()
-{
-	return isEnd;
-}
 
 void GameManager::PlayerTurn()
 {
@@ -97,7 +234,7 @@ void GameManager::PlayerTurn()
 
 	if (input[0] == '1')
 	{
-		cout << "몬스터에게 " << player.GetAtk() << "만큼 공격을 합니다." << endl << endl;
+		cout << monster.GetName() <<"에게 " << player.GetAtk() << "만큼 공격을 합니다." << endl << endl;
 		monster.SetHp(-player.GetAtk());
 	}
 	else if (input[0] == '2')
@@ -120,13 +257,13 @@ void GameManager::PlayerTurn()
 
 void GameManager::MonsterTurn()
 {
-	cout << "몬스터의 차례입니다." << endl;
+	cout << monster.GetName()<<"의 차례입니다." << endl;
 	CoutHP();
 	cout << "플레이어에게 " << monster.GetAtk() << "만큼 공격을 합니다." << endl << endl;
 
 	if (isDef)
 	{
-		cout << "플레이어가 방어한 만큼 차감되어 데미지가 들어갑니다.";
+		cout << "플레이어가 방어한 만큼 차감되어 데미지가 들어갑니다."<<endl;
 		int atk = CompareAtknDef(monster.GetAtk(), player.GetDef());
 		player.SetHp(-atk);
 		isDef = false;
@@ -160,7 +297,7 @@ void GameManager::PlayerRunAway()
 	}
 	else
 	{
-		cout << "몬스터의 레벨이 높아 도망칠 수 없습니다..." << endl;
+		cout << monster.GetName()<<"의 레벨이 높아 도망칠 수 없습니다..." << endl;
 		isRunAway = false;
 	}
 }
@@ -183,8 +320,6 @@ void GameManager::ItemSystem()
 {
 	cout << "전리품으로 " << monster.GetItem().GetName() <<"을 획득합니다." << endl;
 	player.SetItem(monster.GetItem());
-
-	cout << "player의 item 상황 : " << player.GetItem().GetName();
 }
 
 
@@ -198,14 +333,17 @@ bool GameManager::CheckHp()
 			<< "GAME OVER" << endl;
 
 		isBattle = false;
-		return false;
+		isEnd = true;
+		return End();
 	}
 	else if (monster.Death())
 	{
-		cout << "몬스터의 Hp가 0이 되었습니다." << endl
-			<< "GAME WIN" << endl;
+		cout << monster.GetName()<<" 의 Hp가 0이 되었습니다." << endl
+			<< "PLAYER WIN" << endl;
+		player.SetExp(monster.GetExp());
+
 		ItemSystem();
-		player.UseItem();
+
 		isBattle = false;
 		return false;
 	}
@@ -219,4 +357,10 @@ bool GameManager::CheckHp()
 	else
 		return true;
 
+}
+
+
+bool GameManager::End()
+{
+	return isEnd;
 }

@@ -6,16 +6,25 @@
 class Inventory
 {
 	vector<Item> itemSlot;
-	string name;
 
 public:
 	Inventory();
-	Inventory(string);
 	~Inventory();
+
+	void SetPotionShopInventory();
+	void SetWeaponShopInventory();
 
 	void LoadInventory();
 	void AddItem(Item);
 	Item UseItem(int);
 	Item BuyItem(int);
+	Item SellItem(int);
+	void DeleteItem(int);
+
+	bool EmptyInventory();
+
+	void SetEquipment(Item);
+
+
 };
 

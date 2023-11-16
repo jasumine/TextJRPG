@@ -7,9 +7,6 @@ int main()
 {
 	Player player;
 
-	Item _item = Item("HP포션(소)", 10, 100);
-	Player slime = Player("Slime", 1, _item);
-
 	bool isEnd = false;
 
 	cout << "게임을 시작합니다." << endl;

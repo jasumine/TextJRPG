@@ -20,23 +20,34 @@ class GameManager
 	bool isDef = false;
 	bool isBattle = false;
 	bool isEnd = false;
+	bool setPotionShop = false;
+	bool setWeaponShop = false;
 
-	Inventory shopInventory;
 	Item shopItem;
+	Inventory shopPotionInventory;
+	Inventory shopWeaponInventory;
 
 public:
 	GameManager();
 	GameManager(Player);
-	GameManager(Player, Player);
 	~GameManager();
 
 	void CoutHP();
 	
 	void GameStart();
+	void Town();
 	void Shop();
-	void Battle();
+	void Battle(Player);
 	bool End();
-	
+
+	void Trade();
+	void CheckInventory();
+
+	void BuySelect();
+	void PotionShop();
+	void WeaponShop();
+
+	void Map();
 	void PlayerTurn();
 	void MonsterTurn();
 
