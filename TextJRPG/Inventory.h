@@ -7,6 +7,10 @@ class Inventory
 {
 	vector<Item> itemSlot;
 
+	bool setWeapon = false;
+	bool setCloth = false;
+	bool setAccessory = false;
+
 public:
 	Inventory();
 	~Inventory();
@@ -23,7 +27,8 @@ public:
 
 	bool EmptyInventory();
 
-	void SetEquipment(Item);
+	bool SetEquipment(Item);
+	void ReleasEquipment(Item);
 
 
 };

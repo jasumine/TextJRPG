@@ -16,17 +16,17 @@ void Inventory::LoadInventory()
 	{
 		cout << " " << i + 1 << ". " << itemSlot[i].GetName();
 	}
-	cout <<endl<<"=======================" << endl;
+	cout <<endl<<"=========================" << endl <<endl;
 }
 
 void Inventory::SetPotionShopInventory()
 {
-	Item item1 = Item("hp포션(소)", 10, 100);
-	Item item2 = Item("mp포션(소)", 10, 100);
-	Item item3 = Item("hp포션(중)", 100, 300);
-	Item item4 = Item("mp포션(중)", 10, 100);
-	Item item5 = Item("hp포션(대)", 50, 200);
-	Item item6 = Item("mp포션(대)", 100, 300);
+	Item item1 = Item("hp포션(소)", Potion, 10, 100);
+	Item item2 = Item("mp포션(소)", Potion, 10, 100);
+	Item item3 = Item("hp포션(중)", Potion, 50, 200);
+	Item item4 = Item("mp포션(중)", Potion, 50, 200);
+	Item item5 = Item("hp포션(대)", Potion, 100, 300);
+	Item item6 = Item("mp포션(대)", Potion, 100, 300);
 
 	itemSlot.push_back(item1);
 	itemSlot.push_back(item2);
@@ -38,12 +38,12 @@ void Inventory::SetPotionShopInventory()
 
 void Inventory::SetWeaponShopInventory()
 {
-	Item item1 = Item("낡은 검", 10, 100);
-	Item item2 = Item("낡은 갑옷", 10, 100);
-	Item item3 = Item("낡은 반지", 10, 100);
-	Item item4 = Item("본 소드", 50, 200);
-	Item item5 = Item("본 아머", 50, 200);
-	Item item6 = Item("본 링", 50, 200);
+	Item item1 = Item("낡은 검", Weapon, 10, 100);
+	Item item2 = Item("낡은 갑옷", Cloth, 10, 100);
+	Item item3 = Item("낡은 반지", Accessory, 10, 100);
+	Item item4 = Item("본 소드", Weapon, 50, 200);
+	Item item5 = Item("본 아머", Cloth, 50, 200);
+	Item item6 = Item("본 링", Accessory, 50, 200);
 
 	itemSlot.push_back(item1);
 	itemSlot.push_back(item2);
@@ -94,14 +94,92 @@ bool Inventory::EmptyInventory()
 
 void Inventory::DeleteItem(int num)
 {
+	cout << "인벤토리에 " << itemSlot[num-1].GetName() << "이 제거되었습니다." << endl;
+
+
+	if (itemSlot[num - 1].GetType() == 1)
+	{
+		setWeapon = false;
+	}
+	if (itemSlot[num - 1].GetType() == 2)
+	{
+		setCloth = false;
+	}
+	if (itemSlot[num - 1].GetType() == 3)
+	{
+		setAccessory = false;
+	}
+
+
+
 	itemSlot.erase(itemSlot.begin() + num - 1);
 }
 
-void Inventory::SetEquipment(Item _item)
+bool Inventory::SetEquipment(Item _item)
+{
+	if (_item.GetType() == 1)
+	{
+		if (setWeapon == false)
+		{
+			itemSlot.push_back(_item);
+			setWeapon = true;
+			cout << itemSlot.back().GetName() << "을 장착했습니다." << endl;
+
+			return true;
+		}
+		else
+		{
+			cout << "무기는 이미 장착되어 있습니다. 탈착부터 해주세요!!" << endl;
+
+			return false;
+		}
+	}
+	else if (_item.GetType() == 2)
+	{
+		if (setCloth == false)
+		{
+			itemSlot.push_back(_item);
+			setCloth = true;
+			cout << itemSlot.back().GetName() << "을 장착했습니다." << endl;
+
+			return true;
+		}
+		else
+		{
+			cout << "갑옷은 이미 장착되어 있습니다. 탈착부터 해주세요!!" << endl;
+
+			return false;
+		}
+	}
+	else if (_item.GetType() == 3)
+	{
+		if (setAccessory == false)
+		{
+			itemSlot.push_back(_item);
+			setAccessory = true;
+			cout << itemSlot.back().GetName() << "을 장착했습니다." << endl;
+
+			return true;
+		}
+		else
+		{
+			cout << "악세사리는 이미 장착되어 있습니다. 탈착부터 해주세요!!" << endl;
+
+			return false;
+		}
+	}
+	else
+	{
+		cout << "장착할 수 없는 아이템 입니다." << endl;
+		return false;
+	}
+}
+
+void Inventory::ReleasEquipment(Item _item)
 {
 	itemSlot.push_back(_item);
 
-	cout <<itemSlot.back().GetName() << "을 장착했습니다." << endl;
+	cout << itemSlot.back().GetName() << "을 탈착했습니다." << endl;
 }
 
 

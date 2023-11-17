@@ -22,9 +22,13 @@ class Player
 	int atk = 30;
 	int def = 10;
 
+	int gold = 10;
+
 	Inventory inventory;
 	Inventory equipment;
 	Item mItem;
+
+	bool setEquip = false;
 
 public:
 	
@@ -59,17 +63,22 @@ public:
 	void SetDef(int);
 	int GetDef();
 
+	void SetGold(int);
+	int GetGold();
+
 	bool Death();
 
 	void Recovery();
 
 	void SetItem(Item);
 	Item GetItem();
+	bool BuyItem(Item);
 	Inventory GetInventory();
-	void ReleaseItem();
+
 	void UseItem();
 	void SellItem();
 
 	void LoadInventory();
 	void SetEquipment();
+	void ReleaseEquipment();
 };

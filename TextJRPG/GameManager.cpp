@@ -81,22 +81,32 @@ void GameManager::Town()
 
 void GameManager::Trade()
 {
+	player.SellItem();
+
+
+
 }
 
 void GameManager::CheckInventory()
 {
 	player.LoadInventory();
 
-	cout << "1. 장비 교체하기" << endl
-		<< "2. 돌아가기" << endl;
+	cout << "1. 장비 장착하기" << endl
+		<< "2. 장비 탈착하기" << endl
+		<< "3. 돌아가기" << endl;
 	input.clear();
 	cin >> input;
 	if (input[0] == '1')
 	{
-		cout << "장비를 교체합니다." << endl;
+		cout << "장비를 장착합니다." << endl;
 		player.SetEquipment();
 	}
 	else if (input[0] == '2')
+	{
+		cout << "장비를 탈착합니다." << endl;
+		player.ReleaseEquipment();
+	}
+	else if (input[0] == '3')
 	{
 		cout << "돌아갑니다." << endl;
 	}
@@ -155,7 +165,12 @@ void GameManager::PotionShop()
 	cout << "구매하고싶은 아이템의 번호를 입력하세요." << endl;
 	string num;
 	cin >> num;
-	player.SetItem(shopPotionInventory.BuyItem(stoi(num)));
+
+	if (player.BuyItem(shopPotionInventory.BuyItem(stoi(num))))
+	{
+		player.SetItem(shopPotionInventory.BuyItem(stoi(num)));
+	}
+	
 }
 
 void GameManager::WeaponShop()
@@ -171,7 +186,11 @@ void GameManager::WeaponShop()
 	cout << "구매하고싶은 아이템의 번호를 입력하세요." << endl;
 	string num;
 	cin >> num;
-	player.SetItem(shopWeaponInventory.BuyItem(stoi(num)));
+
+	if (player.BuyItem(shopWeaponInventory.BuyItem(stoi(num))))
+	{
+		player.SetItem(shopWeaponInventory.BuyItem(stoi(num)));
+	}
 }
 
 
@@ -209,6 +228,7 @@ void GameManager::Battle(Player _monster)
 {
 	monster = _monster;
 	playerTurn = true;
+	isRunAway = false;
 	while (isBattle)
 	{
 		if (playerTurn)
