@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -22,8 +23,11 @@ class Item
 public:
 
 	Item();
+	Item(string);
 	Item(string, ItemType, int, int);
 	~Item();
+
+	string ToString();
 
 	void SetName(string);
 	string GetName();
@@ -35,6 +39,8 @@ public:
 
 	void SetPrice(int);
 	int GetPrice();
+
+
 
 };
 

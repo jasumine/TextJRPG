@@ -1,0 +1,12 @@
+hp포션(소),Potion,10,100
+mp포션(소),Potion,10,100
+hp포션(중),Potion,50,200
+mp포션(중),Potion,50,200
+hp포션(대),Potion,100,300
+mp포션(대),Potion,100,300
+낡은 검,Weapon,10,100
+낡은 갑옷,Cloth,10,100
+낡은 반지,Accessory,10,100
+본 소드,Weapon,50,200
+본 아머,Cloth,50,200
+본 링,Accessory,50,200

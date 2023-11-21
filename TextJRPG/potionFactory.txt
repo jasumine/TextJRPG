@@ -1,0 +1,6 @@
+hp포션(소),Potion,10,100
+mp포션(소),Potion,10,100
+hp포션(중),Potion,50,200
+mp포션(중),Potion,50,200
+hp포션(대),Potion,100,300
+mp포션(대),Potion,100,300
